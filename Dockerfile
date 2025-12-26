@@ -1,5 +1,6 @@
 FROM python:3
 
+LABEL description="This image for learining only, for devOps course"
 
 WORKDIR /usr/src/app
 
