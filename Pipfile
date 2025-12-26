@@ -13,4 +13,4 @@ flask-sqlalchemy = "==2.4.4"
 marshmallow-sqlalchemy = "==0.24.1"
 
 [requires]
-python_version = "3.7"
+python_version = "3.9"
