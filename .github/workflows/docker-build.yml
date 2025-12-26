@@ -23,16 +23,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASS }}
 
-      - name: Extract Docker metadata
-        id: metadata
-        uses: docker/metadata-action@v5
-        with:
-          images: ghcr.io/${{ github.repository }}
-          tags: |
-                type=sha,format=short,prefix=,suffix=,lower=true
-                type=sha,format=long,prefix=,suffix=,lower=true
-                type=ref,event=branch,prefix=,suffix=,lower=true
-
       - name: build-and-push
         uses: docker/build-push-action@v6.18.0
         with:
