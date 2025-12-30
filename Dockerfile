@@ -5,7 +5,7 @@ LABEL description="This image for learining only, for devOps course"
 WORKDIR /usr/src/app
 
 COPY requirements.txt ./
-
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
