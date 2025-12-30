@@ -1,4 +1,4 @@
-FROM python:3.8.0a1-alpine3.9
+FROM ggvick/python3.9:latest
 
 LABEL description="This image for learining only, for devOps course"
 
