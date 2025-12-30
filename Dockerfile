@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.8.0a1-alpine3.9
 
 LABEL description="This image for learining only, for devOps course"
 
