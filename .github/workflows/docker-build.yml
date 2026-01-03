@@ -21,9 +21,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASS }}
       - name: build-image
-        run: docker build -t ${{ secrets.DOCKERHUB_USER }}/devopscourse:team1-${{ github.actor }}-${{ github.run_number }} .
+        run: docker build -t ${{ secrets.DOCKERHUB_USER }}/devopscourse:${{ github.actor }} .
       - name: push-image
-        run: docker push ${{ secrets.DOCKERHUB_USER }}/devopscourse:team1-${{ github.actor }}-${{ github.run_number }}
+        run: docker push ${{ secrets.DOCKERHUB_USER }}/devopscourse:${{ github.actor }}
 
   deply:
     name: deploy-to-azure
