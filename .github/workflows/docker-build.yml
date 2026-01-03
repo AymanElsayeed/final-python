@@ -10,8 +10,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-    env:
-      REGISTRY: ghcr.io
     steps:
       - uses: actions/checkout@v4
       - name: login-docker
