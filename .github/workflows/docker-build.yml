@@ -2,7 +2,10 @@ name: docker-build.yml
 on:
   push:
     branches:
-      - Dockerfile
+      - dev
+  pull_request:
+    types: [opened]
+  workflow_dispatch:
 jobs:
   build:
     name: docker-build
