@@ -1,0 +1,40 @@
+name: docker-build.yml
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    types: [opened]
+  workflow_dispatch:
+jobs:
+  build:
+    name: docker-build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: login-docker
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PASS }}
+      - name: build-image
+        run: docker build -t ${{ secrets.DOCKERHUB_USER }}/devopscourse:team1-${{ github.actor }}-${{ github.run_number }} .
+      - name: push-image
+        run: docker push ${{ secrets.DOCKERHUB_USER }}/devopscourse:team1-${{ github.actor }}-${{ github.run_number }}
+
+  deply:
+    name: deploy-to-azure
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: trigger-azure-pipeline
+        run: |
+          echo "Triggering Azure pipeline..."
+          curl -u :${{ secrets.AZURE_DEVOPS_TOKEN }} -X POST \
+            -H "Content-Type: application/json" \
+            -d '{"resources": {"repositories": {"self": {"refName": "refs/heads/main"}}}}' \
+            "https://dev.azure.com/${{ secrets.AZURE_ORG }}/${{ secrets.AZURE_PROJECT }}/_apis/pipelines/${{ secrets.AZURE_PIPELINE_ID }}/runs?api-version=6.0-preview.1"

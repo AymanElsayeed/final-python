@@ -1,0 +1,34 @@
+# Azure pipeline to deploy Docker image from Docker Hub to Azure Web App
+trigger: none  # Triggered via REST API from GitHub Actions
+
+variables:
+  azureServiceConnectionId: '33503aa0-a2f9-44d4-8b26-1c6823745ccb'
+  webAppName: 'final-python'
+  vmImageName: 'ubuntu-latest'
+  environmentName: 'final-python'
+  # Docker image to deploy (replace with actual tag)
+  dockerImage: '$(DOCKERHUB_USER)/devopscourse:team1-$(Build.RequestedFor)-$(Build.BuildId)'
+
+stages:
+- stage: Deploy
+  displayName: Deploy Web App from Docker Hub
+  jobs:
+  - deployment: DeployContainer
+    pool:
+      vmImage: $(vmImageName)
+    environment: $(environmentName)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: '3.11'
+            displayName: 'Use Python version'
+
+          - task: AzureWebAppContainer@1
+            displayName: 'Deploy Azure Web App (Container)'
+            inputs:
+              azureSubscription: $(azureServiceConnectionId)
+              appName: $(webAppName)
+              imageName: $(dockerImage)
