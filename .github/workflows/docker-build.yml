@@ -2,7 +2,7 @@ name: docker-build.yml
 on:
   push:
     branches:
-      - Dockerfile
+      - '*'
 jobs:
   build:
     name: docker-build
