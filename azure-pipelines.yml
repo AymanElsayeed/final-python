@@ -7,7 +7,8 @@ variables:
   vmImageName: 'ubuntu-latest'
   environmentName: 'final-python'
   # Docker image to deploy (replace with actual tag)
-  dockerImage: '$(DOCKERHUB_USER)/devopscourse:$(Build.RequestedFor)'
+  # dockerImage: '$(DOCKERHUB_USER)/devopscourse:$(Build.RequestedFor)'
+  dockerImage: 'aymanelsayeed/devopscourse:AymanElsayeed'
 
 stages:
 - stage: Deploy
