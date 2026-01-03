@@ -36,5 +36,5 @@ jobs:
           echo "Triggering Azure pipeline..."
           curl -u :${{ secrets.AZURE_DEVOPS_TOKEN }} -X POST \
             -H "Content-Type: application/json" \
-            -d '{"resources": {"repositories": {"self": {"refName": "refs/heads/main"}}}}' \
+            -d '{"resources": {"repositories": {"self": {"refName": "refs/heads/dev"}}}}' \
             "https://dev.azure.com/${{ secrets.AZURE_ORG }}/${{ secrets.AZURE_PROJECT }}/_apis/pipelines/${{ secrets.AZURE_PIPELINE_ID }}/runs?api-version=6.0-preview.1"
