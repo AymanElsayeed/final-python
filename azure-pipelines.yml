@@ -2,12 +2,12 @@
 trigger: none  # Triggered via REST API from GitHub Actions
 
 variables:
-  azureServiceConnectionId: '33503aa0-a2f9-44d4-8b26-1c6823745ccb'
+  azureServiceConnectionId: '1a9fd121-57a1-4599-9a24-d2d1b348b8a1'
   webAppName: 'final-python'
   vmImageName: 'ubuntu-latest'
   environmentName: 'final-python'
   # Docker image to deploy (replace with actual tag)
-  dockerImage: '$(DOCKERHUB_USER)/devopscourse:team1-$(Build.RequestedFor)-$(Build.BuildId)'
+  dockerImage: '$(DOCKERHUB_USER)/devopscourse:$(Build.RequestedFor)'
 
 stages:
 - stage: Deploy
