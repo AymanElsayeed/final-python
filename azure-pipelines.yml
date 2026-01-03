@@ -1,14 +1,19 @@
 # Azure pipeline to deploy Docker image from Docker Hub to Azure Web App
 trigger: none  # Triggered via REST API from GitHub Actions
 
+parameters:
+- name: imageTag
+  displayName: Docker Image Tag
+  type: string
+  default: 'latest'
+
 variables:
   azureServiceConnectionId: '33503aa0-a2f9-44d4-8b26-1c6823745ccb'
   webAppName: 'final-python'
   vmImageName: 'ubuntu-latest'
   environmentName: 'final-python'
-  # Docker image to deploy (replace with actual tag)
-  # dockerImage: '$(DOCKERHUB_USER)/devopscourse:$(Build.RequestedFor)'
-  dockerImage: 'aymanelsayeed/devopscourse:AymanElsayeed'
+  # Docker image to deploy
+  dockerImage: 'aymanelsayeed/devopscourse:${{ parameters.imageTag }}'
 
 stages:
 - stage: Deploy
