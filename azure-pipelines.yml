@@ -1,0 +1,23 @@
+trigger: none
+
+resources:
+  containers:
+  - container: devopscourse
+    image: $(DOCKER_USER)/devopscourse:latest
+    endpoint: docker-hub-connection # You need to create this service connection in Azure DevOps
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: Deploy
+  displayName: Deploy to Azure App Service
+  jobs:
+  - job: Deploy
+    displayName: Deploy Container
+    steps:
+    - task: AzureWebAppContainer@1
+      inputs:
+        azureSubscription: 'AzureConnection' # You need to create this service connection (ARM)
+        appName: '$(APP_SERVICE_NAME)'
+        containers: '$(DOCKER_USER)/devopscourse:latest'

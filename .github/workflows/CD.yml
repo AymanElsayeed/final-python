@@ -1,0 +1,30 @@
+name: CD
+
+on:
+  workflow_run:
+    workflows: ["docker-build"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  trigger-azure-pipeline:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }} # You might need to set this up if using az cli with service principal, or use PAT
+
+      - name: Trigger Azure Pipeline
+        env:
+          AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
+          AZURE_ORG: ${{ secrets.AZURE_ORG }}
+          AZURE_PROJECT: ${{ secrets.AZURE_PROJECT }}
+          AZURE_PIPELINE_ID: ${{ secrets.AZURE_PIPELINE_ID }}
+        run: |
+          echo "Triggering Azure Pipeline..."
+          # Using Azure CLI with PAT
+          echo $AZURE_DEVOPS_TOKEN | az devops login --organization https://dev.azure.com/$AZURE_ORG
+          az pipelines run --id $AZURE_PIPELINE_ID --organization https://dev.azure.com/$AZURE_ORG --project $AZURE_PROJECT
