@@ -6,8 +6,10 @@ from db import db
 from resources.store import Store, StoreList, store_ns, stores_ns
 from resources.item import Item, ItemList, items_ns, item_ns
 from marshmallow import ValidationError
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app)
 bluePrint = Blueprint('api', __name__, url_prefix='/api')
 api = Api(bluePrint, doc='/doc', title='Sample Flask-RestPlus Application')
 app.register_blueprint(bluePrint)
